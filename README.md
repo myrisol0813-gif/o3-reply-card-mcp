@@ -30,7 +30,7 @@ When o3's ordinary reply bubble disappears, give it another piece of paper insid
 Requires Python 3.10 or newer. There are no third-party Python dependencies.
 
 ```bash
-git clone https://github.com/sibylsea-hub/o3-reply-card-mcp.git
+git clone https://github.com/myrisol0813-gif/o3-reply-card-mcp.git
 cd o3-reply-card-mcp
 python3 server.py
 ```
