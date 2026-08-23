@@ -25,6 +25,19 @@ When o3's ordinary reply bubble disappears, give it another piece of paper insid
 - It does not store data after the server restarts.
 - It does not provide authentication, rate limiting, TLS, or a hosted public endpoint.
 
+## Known client limitation
+
+> **Tested August 24, 2026:** The visible reply card has so far only been
+> confirmed to render in ChatGPT on the web. The Android and iOS apps may not
+> display the MCP Apps card even when the tool call succeeds. The server still
+> returns the complete body in model-visible `content.text`, but what the host
+> displays or preserves may vary by client and version.
+
+> **截至 2026-08-24 的实测结果：**目前仅确认 ChatGPT 网页版能够显示可见回复卡。
+> Android 与 iOS 客户端即使成功调用工具，也可能不渲染 MCP Apps 卡片。服务端仍会
+> 将完整正文写入模型可见的 `content.text`，但宿主最终显示或保留的内容可能随客户端
+> 与版本而变化。
+
 ## Quick start
 
 Requires Python 3.10 or newer. There are no third-party Python dependencies.
