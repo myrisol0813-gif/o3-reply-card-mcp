@@ -55,6 +55,28 @@ Expected response:
 
 For ChatGPT, expose the server through an HTTPS endpoint or temporary tunnel that you control, then add the HTTPS URL ending in `/mcp` in developer mode. Refresh the connection after changing the tool schema or widget. See the official [MCP server and UI quickstart](https://developers.openai.com/plugins/build/app-quickstart) and [MCP Apps UI guide](https://developers.openai.com/plugins/build/chatgpt-ui).
 
+### Cloudflare Worker
+
+The repository also includes a dependency-free Cloudflare Worker entry point:
+
+```bash
+node cloudflare/test_worker.mjs
+npx wrangler deploy
+```
+
+The included `wrangler.jsonc` targets the maintainer's custom domain,
+`o3-mcp.elementeracoast.com`. Change or remove that route before deploying
+under a different Cloudflare account or domain. The Worker serves:
+
+- `GET /health`
+- `GET|POST|DELETE /mcp`
+- the same endpoints under `/o3/health` and `/o3/mcp` for an isolated
+  path mounted inside an existing Cloudflare Pages project
+
+The Worker imports only its bundled reply-card widget. It has no environment
+bindings, secrets, database access, external requests, Notion integration, or
+Elementera Coast memory imports.
+
 ## Prompt
 
 Paste this at the end of your o3 message:
@@ -190,6 +212,7 @@ Run the automated protocol, validation, ring-buffer, concurrency, widget, and HT
 
 ```bash
 python3 -m unittest discover -v
+node cloudflare/test_worker.mjs
 ```
 
 Then test in ChatGPT:
@@ -212,6 +235,9 @@ The refresh and model-continuation checks must be performed in the actual ChatGP
 - The server does not write replies to disk, but ChatGPT or another MCP host may retain tool inputs, tool results, and card content.
 - Card bodies can enter later model context. Treat every card as model-readable and do not put secrets in it.
 - In-memory sessions are keyed only by the caller-provided `session_id`; v0.1 has no user authentication or tenant isolation.
+- Cloudflare isolate memory is best-effort process memory. A cold start, isolate
+  eviction, deployment, or request reaching a different isolate can clear the
+  rolling context even while the public endpoint remains healthy.
 
 See [SECURITY.md](SECURITY.md) before exposing an endpoint beyond loopback.
 

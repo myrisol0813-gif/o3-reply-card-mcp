@@ -1,0 +1,13 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "o3-reply-card-mcp",
+  "main": "cloudflare/worker.js",
+  "compatibility_date": "2026-08-23",
+  "workers_dev": true,
+  "routes": [
+    {
+      "pattern": "o3-mcp.elementeracoast.com",
+      "custom_domain": true
+    }
+  ]
+}
